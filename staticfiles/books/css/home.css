@@ -1,0 +1,333 @@
+/* Home Page Styles */
+
+.section-padding {
+    padding: 4rem 0;
+}
+
+.bg-light {
+    background-color: transparent;
+}
+
+/* Use body gradient */
+
+/* Hero - Enhanced */
+/* Hero */
+/* Hero */
+/* Hero */
+.hero {
+    background-image: url('../images/hero_corporate.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    /* Parallax effect */
+    padding: 0;
+    /* Full height via flex */
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    color: #fff !important;
+    margin-top: -80px;
+    /* Pull behind navbar (assuming navbar is 80px approx) */
+}
+
+/* Dark Overlay for Hero Text Readability */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.4));
+    z-index: 1;
+}
+
+.hero-container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    /* Ensure content is above overlay */
+}
+
+.hero p {
+    font-size: 1.35rem;
+    color: #e2e8f0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    font-weight: 500;
+    max-width: 600px;
+}
+
+.hero-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    z-index: 1;
+}
+
+.hero-image img {
+    max-width: 120%;
+    /* Larger impact */
+    height: auto;
+    filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.4));
+    animation: float 6s ease-in-out infinite;
+}
+
+/* Section Titles (Tech) */
+/* Section Titles */
+.section-title {
+    font-family: var(--font-main);
+    text-transform: none;
+    letter-spacing: normal;
+    color: #fff;
+    border-bottom: none;
+    display: block;
+    padding: 0.5rem 1rem;
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 3rem;
+    text-align: center;
+    position: relative;
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    background: transparent;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 4px;
+    background: var(--accent-color);
+    margin: 1rem auto 0;
+    border-radius: 4px;
+}
+
+/* Categories - Glass */
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 2rem;
+}
+
+/* Categories (HUD Style) */
+/* Categories - Clean */
+/* Categories - Neat Glass / Image Theme */
+.category-card {
+    background: rgba(255, 255, 255, 0.1);
+    /* Transparent for image theme */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.category-icon {
+    font-size: 2.5rem;
+    color: #fff;
+    /* White icon for better contrast on dark bg */
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    margin-bottom: 1.5rem;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+.category-card:hover .category-icon {
+    transform: scale(1.1);
+    color: var(--accent-color);
+}
+
+.category-card h3 {
+    color: #fff;
+    /* White text */
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin: 0;
+    font-family: var(--font-main);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Book Cards - Glass / Image Theme */
+.book-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 2.5rem;
+}
+
+.book-card {
+    background: rgba(255, 255, 255, 0.1);
+    /* Glass background */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.book-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.book-image {
+    background: rgba(255, 255, 255, 0.05);
+    /* Subtle distinction */
+    height: 320px;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.book-image img {
+    filter: none;
+    max-height: 100%;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    transition: transform 0.4s ease;
+}
+
+.book-card:hover .book-image img {
+    transform: scale(1.05);
+}
+
+.book-info {
+    padding: 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+}
+
+.book-info h3 {
+    color: #fff;
+    font-family: var(--font-main);
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.book-info .author {
+    font-size: 0.9rem;
+    color: #cbd5e1;
+    /* Light grey text */
+    margin-bottom: 1rem;
+}
+
+.book-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.price {
+    color: var(--accent-color);
+    /* Pop color */
+    font-weight: 700;
+    font-size: 1.25rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Buttons and Badges */
+.btn-full {
+    width: 100%;
+    margin-top: auto;
+    border-radius: 8px;
+    padding: 0.75rem;
+    font-weight: 600;
+    box-shadow: none;
+}
+
+.btn-full:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.badge-new,
+.badge-reused,
+.badge-notes {
+    border: none;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.6rem;
+    font-weight: 600;
+}
+
+@media (max-width: 992px) {
+    .section-title {
+        font-size: 2rem;
+        margin-bottom: 3rem;
+    }
+
+    .book-image {
+        height: 280px;
+    }
+}
+
+@media (max-width: 768px) {
+    .section-padding {
+        padding: 4rem 0;
+    }
+
+    .hero-container {
+        text-align: center;
+        padding: 0 1.5rem;
+    }
+
+    .hero h1 {
+        font-size: 2.25rem;
+        line-height: 1.2;
+    }
+
+    .hero p {
+        margin: 0 auto 2rem;
+        font-size: 1.1rem;
+    }
+
+    .hero-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+        width: 100%;
+    }
+
+    .btn {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 !important;
+        padding: 0.8rem 1.5rem !important;
+    }
+
+    .book-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+    }
+}
