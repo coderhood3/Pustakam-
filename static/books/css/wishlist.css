@@ -7,13 +7,13 @@
 }
 
 .wishlist-card {
-    background: #fff;
-    border-radius: 16px;
+    background: var(--card-bg);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    border-radius: var(--radius);
     overflow: hidden;
     box-shadow: var(--shadow-md);
     transition: var(--transition);
     position: relative;
-    border: 1px solid #e2e8f0;
 }
 
 .wishlist-card:hover {

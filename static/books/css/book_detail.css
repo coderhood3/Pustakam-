@@ -5,10 +5,14 @@
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
     margin-bottom: 6rem;
-    background: rgba(255, 255, 255, 0.85);
+    margin-bottom: 6rem;
+    background: rgba(255, 255, 255, 0.05);
+    /* Very subtle */
     border-radius: 30px;
     padding: 3rem;
-    backdrop-filter: blur(12px);
+    backdrop-filter: none;
+    /* blurring handled by body::before */
+    border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
@@ -39,13 +43,15 @@
     margin-bottom: 0.5rem;
     line-height: 1.1;
     font-weight: 800;
-    color: var(--primary-color);
-    text-shadow: none;
+    color: #fff;
+    /* White title */
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 .book-author {
     font-size: 1.4rem;
-    color: var(--text-muted);
+    color: #94a3b8;
+    /* Light slate */
     margin-bottom: 2rem;
     font-weight: 500;
 }
@@ -78,7 +84,8 @@
     line-height: 1.8;
     margin-bottom: 2.5rem;
     font-size: 1.1rem;
-    color: var(--text-color);
+    color: #e2e8f0;
+    /* Light text */
 }
 
 .book-actions {
