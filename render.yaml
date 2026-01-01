@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: pustakam
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn pustakam.wsgi:application"
+    plan: free
+    branch: main
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.0
+      - key: WEB_CONCURRENCY
+        value: 4
