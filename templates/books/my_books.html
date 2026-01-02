@@ -1,97 +1,15 @@
 {% extends 'books/base.html' %}
-{% load static %}
-
-{% block title %}My Uploads | Pustakam{% endblock %}
-
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'books/css/my_books.css' %}">
-<style>
-    .badge-approved {
-        background: #dcfce7;
-        color: #166534;
-    }
-
-    .badge-pending {
-        background: #fef9c3;
-        color: #854d0e;
-    }
-
-    .badge-rejected {
-        background: #fee2e2;
-        color: #991b1b;
-    }
-
-    .book-thumb {
-        width: 50px;
-        height: 75px;
-        object-fit: cover;
-        border-radius: 4px;
-    }
-
-    .thumb-placeholder {
-        width: 50px;
-        height: 75px;
-        background: #e2e8f0;
-        border-radius: 4px;
-    }
-</style>
-{% endblock %}
-
 {% block content %}
-<div class="container section-padding">
-    <div class="section-header d-flex justify-content-between align-items-center mb-4">
-        <h1>My Uploaded Books</h1>
-        <a href="{% url 'upload_book' %}" class="btn btn-primary"><i class="fas fa-plus"></i> Sell New Book</a>
+<div class="container py-8">
+    <h1 class="text-2xl font-bold mb-6">My Uploaded Books</h1>
+    <div class="grid grid-cols-4">
+        {% for book in books %}
+        <div class="card p-4">
+            <h3 class="font-bold">{{ book.title }}</h3>
+            <p>₹{{ book.price }}</p>
+            <div class="mt-2 text-sm p-1 rounded bg-gray-50 text-center">{{ book.status }}</div>
+        </div>
+        {% endfor %}
     </div>
-
-    {% if books %}
-    <div class="table-responsive"
-        style="background: #fff; border-radius: 12px; box-shadow: var(--shadow-sm); overflow: hidden;">
-        <table class="table" style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
-            <thead>
-                <tr style="background: #f1f5f9; text-align: left;">
-                    <th style="padding: 1rem;">Image</th>
-                    <th style="padding: 1rem;">Title</th>
-                    <th style="padding: 1rem;">Price</th>
-                    <th style="padding: 1rem;">Status</th>
-                    <th style="padding: 1rem;">Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for book in books %}
-                <tr style="border-bottom: 1px solid #e2e8f0;">
-                    <td style="padding: 1rem;">
-                        {% if book.image %}
-                        <img src="{{ book.image.url }}" alt="{{ book.title }}" class="book-thumb">
-                        {% else %}
-                        <div class="thumb-placeholder"></div>
-                        {% endif %}
-                    </td>
-                    <td style="padding: 1rem; font-weight: 500;">
-                        <a href="{% url 'book_detail' book.pk %}" class="text-primary">{{ book.title }}</a>
-                    </td>
-                    <td style="padding: 1rem;">₹{{ book.price }}</td>
-                    <td style="padding: 1rem;">
-                        <span class="badge badge-{{ book.status|lower }}"
-                            style="padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem;">
-                            {{ book.status }}
-                        </span>
-                    </td>
-                    <td style="padding: 1rem; color: #64748b;">{{ book.created_at|date:"M d, Y" }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    {% else %}
-    <div class="text-center py-5">
-        <p>You haven't uploaded any books yet.</p>
-        <a href="{% url 'upload_book' %}" class="btn btn-primary mt-3">Start Selling</a>
-    </div>
-    {% endif %}
 </div>
-{% endblock %}
-
-{% block extra_js %}
-<script src="{% static 'books/js/my_books.js' %}"></script>
 {% endblock %}

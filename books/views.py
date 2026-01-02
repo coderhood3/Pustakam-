@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
-from .models import Book, Category, Cart, CartItem, Order, OrderItem, Review, Wishlist, BookImage
+from .models import Book, Category, Cart, CartItem, Order, OrderItem, Review, Wishlist
 from .forms import RegistrationForm, BookForm, ReviewForm
 
 def register(request):
@@ -16,12 +16,18 @@ def register(request):
         form = RegistrationForm()
     return render(request, 'books/register.html', {'form': form})
 
+def logout_view(request):
+    from django.contrib.auth import logout
+    logout(request)
+    messages.success(request, 'You have been logged out.')
+    return redirect('home')
+
 def about(request):
     return render(request, 'books/about.html')
 
 def contact(request):
     if request.method == 'POST':
-        messages.success(request, 'Message sent! We will get back to you soon.')
+        messages.success(request, 'Message received!')
         return redirect('contact')
     return render(request, 'books/contact.html')
 
@@ -30,35 +36,39 @@ def home(request):
     categories = Category.objects.all()
     
     if query:
-        # If searching, show matching books
         featured_books = Book.objects.filter(
             Q(title__icontains=query) | Q(author__icontains=query),
             status='Approved'
         )
-        recent_books = Book.objects.none() # Hide recent section slightly or just show results
-        search_mode = True
     else:
-        # Default view
-        featured_books = Book.objects.filter(status='Approved', condition='New')[:4]
-        recent_books = Book.objects.filter(status='Approved').order_by('-created_at')[:8]
-        search_mode = False
-
+        featured_books = Book.objects.filter(status='Approved', condition='New')[:8]
+        
     return render(request, 'books/home.html', {
         'categories': categories, 
         'featured_books': featured_books,
-        'recent_books': recent_books,
-        'search_query': query,
-        'search_mode': search_mode
     })
 
 def category_books(request, pk):
     category = get_object_or_404(Category, pk=pk)
     books = Book.objects.filter(category=category, status='Approved')
+    
+    max_price = request.GET.get('max_price')
+    if max_price:
+        books = books.filter(price__lte=max_price)
+        
     return render(request, 'books/category_books.html', {'category': category, 'books': books})
+
+def order_tracking(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    orders = Order.objects.filter(user=request.user).order_by('-created_at')
+    return render(request, 'books/order_tracking.html', {'orders': orders})
 
 def book_detail(request, pk):
     book = get_object_or_404(Book, pk=pk)
+    related_books = Book.objects.filter(category=book.category).exclude(pk=pk)[:4]
     reviews = book.reviews.all()
+    
     if request.method == 'POST':
         form = ReviewForm(request.POST, request.FILES)
         if form.is_valid():
@@ -71,7 +81,12 @@ def book_detail(request, pk):
     else:
         form = ReviewForm()
     
-    return render(request, 'books/book_detail.html', {'book': book, 'reviews': reviews, 'form': form})
+    return render(request, 'books/book_detail.html', {
+        'book': book, 
+        'reviews': reviews, 
+        'form': form,
+        'related_books': related_books
+    })
 
 @login_required
 def upload_book(request):
@@ -81,6 +96,13 @@ def upload_book(request):
             book = form.save(commit=False)
             book.seller = request.user
             book.save()
+            
+            # Save multiple images
+            images = request.FILES.getlist('additional_images')
+            from .models import BookImage
+            for img in images:
+                BookImage.objects.create(book=book, image=img)
+
             messages.success(request, 'Book uploaded successfully! Waiting for approval.')
             return redirect('my_books')
     else:
@@ -118,7 +140,6 @@ def remove_from_cart(request, item_id):
 def checkout(request):
     cart = get_object_or_404(Cart, user=request.user)
     if request.method == 'POST':
-        # Create Order
         order = Order.objects.create(
             user=request.user,
             full_name=request.POST.get('full_name'),
@@ -134,7 +155,7 @@ def checkout(request):
             )
         cart.items.all().delete()
         messages.success(request, 'Order placed successfully!')
-        return redirect('home') # Or order tracking page
+        return redirect('home')
     return render(request, 'books/checkout.html', {'cart': cart})
 
 @login_required

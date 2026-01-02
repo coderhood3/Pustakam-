@@ -1,126 +1,150 @@
 {% extends 'books/base.html' %}
 {% load static %}
-
-{% block title %}Home | Pustakam{% endblock %}
-
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'books/css/home.css' %}">
-{% endblock %}
-
 {% block content %}
-<!-- Hero Section -->
-<section class="hero">
-    <div class="container hero-container">
-        <div class="hero-content">
-            <h1 class="fade-in display-3 fw-bold mb-4">Discover Worlds in <br><span class="text-primary-gradient">Reused
-                    Books</span></h1>
-            <p class="fade-in-delay mb-5 lead">Buy and sell pre-loved books at affordable prices. Sustainable reading
-                starts here.</p>
-            <div class="hero-buttons fade-in-delay-2">
-                <a href="#featured" class="btn btn-primary btn-lg me-3 px-5 py-3 rounded-pill shadow-lg">Shop Now</a>
-                <a href="{% url 'upload_book' %}" class="btn btn-outline-light btn-lg px-5 py-3 rounded-pill">Sell
-                    Books</a>
+
+<!-- 1. Hero Carousel -->
+<section class="mb-4" style="position: relative; overflow: hidden;">
+    <div class="carousel-container" style="position: relative; width: 100%; height: 450px;">
+
+        <!-- Slide 1 -->
+        <div class="carousel-slide active"
+            style="position: absolute; top:0; left:0; width:100%; height:100%; opacity: 1; transition: opacity 1s;">
+            <div style="background: #000; width:100%; height:100%;">
+                <img src="{% static 'books/images/banner_new_year.png' %}" alt="New Year Sale"
+                    style="width: 100%; height: 100%; object-fit: cover;">
             </div>
         </div>
-        <!-- Image moved to CSS background for full coverage -->
+
+        <!-- Slide 2 -->
+        <div class="carousel-slide"
+            style="position: absolute; top:0; left:0; width:100%; height:100%; opacity: 0; transition: opacity 1s;">
+            <div style="background: #000; width:100%; height:100%;">
+                <img src="{% static 'books/images/banner_book_fair.png' %}" alt="Book Fair"
+                    style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="carousel-slide"
+            style="position: absolute; top:0; left:0; width:100%; height:100%; opacity: 0; transition: opacity 1s;">
+            <div style="background: #000; width:100%; height:100%;">
+                <img src="{% static 'books/images/banner_weekend.png' %}" alt="Weekend Reads"
+                    style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <button onclick="moveSlide(-1)"
+            style="position: absolute; top: 50%; left: 20px; background: rgba(0,0,0,0.5); color: white; border: none; padding: 1rem; cursor: pointer; border-radius: 50%; z-index: 10;"><i
+                class="fa-solid fa-chevron-left"></i></button>
+        <button onclick="moveSlide(1)"
+            style="position: absolute; top: 50%; right: 20px; background: rgba(0,0,0,0.5); color: white; border: none; padding: 1rem; cursor: pointer; border-radius: 50%; z-index: 10;"><i
+                class="fa-solid fa-chevron-right"></i></button>
     </div>
 </section>
 
-<!-- Categories Section -->
-<section class="categories section-padding">
-    <div class="container">
-        <h2 class="section-title">Explore Categories</h2>
-        <div class="category-grid">
-            {% for category in categories %}
-            <a href="{% url 'category_books' category.pk %}" class="category-card hover-lift">
-                <div class="category-icon">
-                    {% if category.image %}
-                    <img src="{{ category.image.url }}" alt="{{ category.name }}">
-                    {% else %}
-                    <i class="fas fa-book"></i>
-                    {% endif %}
-                </div>
-                <h3>{{ category.name }}</h3>
-            </a>
-            {% empty %}
-            <p>No categories found.</p>
-            {% endfor %}
+<script>
+    let slideIndex = 0;
+    const slides = document.querySelectorAll('.carousel-slide');
+
+    function showSlide(n) {
+        slideIndex = n;
+        if (slideIndex >= slides.length) slideIndex = 0;
+        if (slideIndex < 0) slideIndex = slides.length - 1;
+
+        slides.forEach(slide => slide.style.opacity = '0');
+        slides[slideIndex].style.opacity = '1';
+    }
+
+    function moveSlide(n) {
+        showSlide(slideIndex + n);
+    }
+
+    // Autoplay
+    setInterval(() => {
+        moveSlide(1);
+    }, 5000);
+</script>
+
+<!-- 2. Offers Grid -->
+<section class="container mb-4">
+    <div class="grid-2">
+        <a href="#" style="display: block; overflow: hidden;">
+            <img src="{% static 'books/images/banner_new_arrivals.png' %}" alt="Just Arrived"
+                style="width: 100%; border-radius: 4px; transition: 0.3s;">
+        </a>
+        <div
+            style="background: #fff; border: 1px solid #eee; display: flex; align-items: center; justify-content: center; flex-direction: column; text-align: center; padding: 2rem;">
+            <h3 class="section-title"
+                style="border: none; margin-bottom: 0; font-size: 2.5rem; color: var(--brand-yellow);">FLAT 50% OFF
+            </h3>
+            <p class="mb-2 text-light text-upper font-bold">On All Award Winners</p>
+            <button class="btn btn-secondary">GRAB DEAL</button>
         </div>
     </div>
 </section>
 
-<!-- Featured Books / Search Results -->
-<section id="featured" class="featured section-padding bg-light">
-    <div class="container">
-        {% if search_mode %}
-        <h2 class="section-title">Search Results for "{{ search_query }}"</h2>
-        {% else %}
-        <h2 class="section-title">Featured Books</h2>
-        {% endif %}
-        <div class="book-grid">
-            {% for book in featured_books %}
-            <div class="book-card hover-lift">
-                <div class="book-image">
-                    {% if book.image %}
-                    <img src="{{ book.image.url }}" alt="{{ book.title }}">
-                    {% else %}
-                    <img src="https://via.placeholder.com/200x300?text=No+Image" alt="No Image">
-                    {% endif %}
-                    <div class="book-overlay">
-                        <a href="{% url 'book_detail' book.pk %}" class="btn btn-sm btn-light">View</a>
-                    </div>
+<!-- 3. Trending Books -->
+<section id="featured" class="container py-4">
+    <div class="d-flex justify-between align-center mb-2">
+        <h2 class="section-title">TRENDING NOW</h2>
+        <a href="#" style="font-weight: 700; font-size: 0.9rem; border-bottom: 1px solid black;">VIEW ALL</a>
+    </div>
+
+    <!-- Categories Filter -->
+    <div class="d-flex gap-1 mb-4" style="overflow-x: auto; padding-bottom: 10px;">
+        <a href="{% url 'home' %}" class="btn" style="background: black; color: white;">ALL</a>
+        {% for cat in categories %}
+        <a href="{% url 'category_books' cat.pk %}" class="btn"
+            style="background: #f4f4f4; color: black; font-weight: normal;">{{ cat.name }}</a>
+        {% endfor %}
+    </div>
+
+    <div class="grid-4">
+        {% for book in featured_books %}
+        <div class="product-card">
+            <div class="product-img-wrap">
+                {% if book.image %}
+                <img src="{{ book.image.url }}" alt="{{ book.title }}" class="product-img">
+                {% else %}
+                <div
+                    style="width: 120px; height: 180px; background: #eee; display: flex; align-items: center; justify-content: center;">
+                    <i class="fa-solid fa-book fa-2x text-light"></i>
                 </div>
-                <div class="book-info">
-                    <h3>{{ book.title }}</h3>
-                    <p class="author">{{ book.author }}</p>
-                    <div class="book-meta">
-                        <span class="price">₹{{ book.price }}</span>
-                        <span class="condition badge-{{ book.condition|lower }}">{{ book.condition }}</span>
-                    </div>
-                    <form action="{% url 'add_to_cart' book.id %}" method="get">
-                        <button type="submit" class="btn btn-primary btn-full"><i class="fas fa-cart-plus"></i> Add to
-                            Cart</button>
-                    </form>
-                </div>
+                {% endif %}
+
+                <!-- Badge logic mock -->
+                {% if forloop.first %}
+                <span class="offer-badge">BESTSELLER</span>
+                {% endif %}
             </div>
-            {% empty %}
-            <p>No featured books yet.</p>
-            {% endfor %}
+
+            <div class="product-info">
+                <h3 class="product-title" title="{{ book.title }}">{{ book.title }}</h3>
+                <p class="product-author">{{ book.author }}</p>
+                <div class="product-price">₹{{ book.price }}</div>
+            </div>
+
+            <form action="{% url 'add_to_cart' book.pk %}" method="post">
+                {% csrf_token %}
+                <button class="add-btn">ADD TO CART</button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- 4. Newsletter -->
+<section style="background: var(--brand-yellow); padding: 3rem 0; margin-top: 4rem;">
+    <div class="container text-center">
+        <h2 class="font-bold text-upper mb-2" style="font-size: 1.5rem;">Subscribe to our Newsletter</h2>
+        <p class="mb-4">Get updates on new arrivals and exclusive offers.</p>
+        <div style="max-width: 500px; margin: 0 auto; display: flex;">
+            <input type="email" placeholder="Enter your email"
+                style="flex: 1; padding: 1rem; border: none; outline: none;">
+            <button class="btn btn-secondary">SUBSCRIBE</button>
         </div>
     </div>
 </section>
 
-<!-- Recent Books -->
-{% if not search_mode %}
-<section class="recent section-padding">
-    <div class="container">
-        <h2 class="section-title">Fresh Arrivals</h2>
-        <div class="book-grid">
-            {% for book in recent_books %}
-            <!-- Reuse book card style or include snippet -->
-            <div class="book-card hover-lift">
-                <div class="book-image">
-                    {% if book.image %}
-                    <img src="{{ book.image.url }}" alt="{{ book.title }}">
-                    {% else %}
-                    <img src="https://via.placeholder.com/200x300?text=No+Image" alt="No Image">
-                    {% endif %}
-                </div>
-                <div class="book-info">
-                    <a href="{% url 'book_detail' book.pk %}">
-                        <h3>{{ book.title }}</h3>
-                    </a>
-                    <p class="author">{{ book.author }}</p>
-                    <div class="price-row">
-                        <span class="price">₹{{ book.price }}</span>
-                    </div>
-                </div>
-            </div>
-            {% empty %}
-            <p>No books available.</p>
-            {% endfor %}
-        </div>
-    </div>
-</section>
-{% endif %}
 {% endblock %}

@@ -1,128 +1,113 @@
 {% extends 'books/base.html' %}
-{% load static %}
-
-{% block title %}{{ book.title }} | Pustakam{% endblock %}
-
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'books/css/book_detail.css' %}">
-<style>
-    /* Dynamic Immersive Background */
-    body {
-        background-image: url('{% if book.image %}{{ book.image.url }}{% else %}{% static "books/images/global_bg.png" %}{% endif %}') !important;
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
-    }
-
-    body::before {
-        content: '';
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(15, 23, 42, 0.85);
-        /* Dark blue tint */
-        backdrop-filter: blur(10px);
-        z-index: -1;
-    }
-</style>
-{% endblock %}
-
 {% block content %}
-<div class="container section-padding">
-    <div class="book-detail-grid">
-        <!-- Image Gallery -->
-        <div class="book-gallery">
-            <div class="main-image">
-                {% if book.image %}
-                <img src="{{ book.image.url }}" alt="{{ book.title }}">
-                {% else %}
-                <img src="https://via.placeholder.com/400x600?text=No+Image" alt="No Image">
-                {% endif %}
-            </div>
-            <!-- Thumbnails -->
-            <!-- Gallery Reverted for Stability -->
-        </div>
+<div class="container py-8">
+    <!-- Breadcrumb -->
+    <nav class="text-sm text-muted mb-6 flex gap-2">
+        <a href="{% url 'home' %}">Home</a> /
+        <a href="{% url 'category_books' book.category.pk %}">{{ book.category.name }}</a> /
+        <span class="text-slate-900">{{ book.title }}</span>
+    </nav>
 
-        <!-- Details -->
-        <div class="book-info-col">
-            <h1 class="book-title">{{ book.title }}</h1>
-            <p class="book-author">by <a href="#">{{ book.author }}</a></p>
+    <div class="grid" style="grid-template-columns: 350px 1fr 300px; gap: 3rem;">
 
-            <div class="book-price-row">
-                <span class="price-large">₹{{ book.price }}</span>
-                <span class="condition-badge badge-{{ book.condition|lower }}">{{ book.condition }}</span>
-            </div>
+        <!-- Col 1: Image -->
+        <div>
+            <div class="card p-2" style="border: none; box-shadow: none; background: var(--slate-100);">
+                <div class="product-detail-img">
+                    {% if book.image %}
+                    <img src="{{ book.image.url }}" alt="{{ book.title }}"
+                        style="width: 100%; border-radius: var(--radius-md);">
+                    {% else %}
+                    <div
+                        style="height:400px; background:#eee; display:flex; align-items:center; justify-content:center;">
+                        No Image</div>
+                    {% endif %}
 
-            <p class="book-description">{{ book.description }}</p>
-
-            <div class="book-actions">
-                <form action="{% url 'add_to_cart' book.id %}" method="get">
-                    <button type="submit" class="btn btn-primary btn-xl"><i class="fas fa-cart-plus"></i> Add to
-                        Cart</button>
-                </form>
-                <form action="{% url 'add_to_wishlist' book.id %}" method="get">
-                    <button type="submit" class="btn btn-outline btn-xl text-primary"><i class="far fa-heart"></i>
-                        Wishlist</button>
-                </form>
-            </div>
-
-            <div class="seller-info">
-                <p>Sold by: <strong>{{ book.seller.username }}</strong></p>
-                <!-- Rating placeholder -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Reviews Section -->
-    <div class="reviews-section mt-5">
-        <h2 class="section-title">Customer Reviews</h2>
-
-        <div class="reviews-grid">
-            <div class="review-list">
-                {% for review in reviews %}
-                <div class="review-card">
-                    <div class="review-header">
-                        <span class="reviewer-name">{{ review.user.username }}</span>
-                        <div class="stars">
-                            {% for i in "12345"|make_list %}
-                            {% if forloop.counter <= review.rating %} <i class="fas fa-star text-warning"></i>
-                                {% else %}
-                                <i class="far fa-star text-warning"></i>
-                                {% endif %}
-                                {% endfor %}
-                        </div>
+                    <!-- Gallery -->
+                    {% if book.images.all %}
+                    <div class="gallery-grid mt-4"
+                        style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
+                        {% for img in book.images.all %}
+                        <img src="{{ img.image.url }}" alt="Gallery Image"
+                            style="border:1px solid #ddd; cursor:pointer; border-radius: var(--radius-sm);"
+                            onclick="document.querySelector('.product-detail-img > img').src=this.src">
+                        {% endfor %}
                     </div>
-                    <p class="review-date">{{ review.created_at|date:"M d, Y" }}</p>
-                    <p class="review-text">{{ review.comment }}</p>
-                    {% if review.image %}
-                    <img src="{{ review.image.url }}" alt="Review Image" class="review-image">
                     {% endif %}
                 </div>
-                {% empty %}
-                <p>No reviews yet. Be the first to review!</p>
-                {% endfor %}
-            </div>
-
-            <div class="add-review-form">
-                {% if user.is_authenticated %}
-                <h3>Write a Review</h3>
-                <form method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    {% for field in form %}
-                    <div class="form-group">
-                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                        {{ field }}
-                    </div>
-                    {% endfor %}
-                    <button type="submit" class="btn btn-primary">Submit Review</button>
-                </form>
-                {% else %}
-                <p><a href="{% url 'login' %}">Login</a> to write a review.</p>
-                {% endif %}
             </div>
         </div>
+
+        <!-- Col 2: Details -->
+        <div>
+            <h1 class="text-3xl font-bold text-slate-900 mb-2">{{ book.title }}</h1>
+            <p class="text-lg text-muted mb-4">by <span class="text-primary font-medium">{{ book.author }}</span></p>
+
+            <div class="flex items-center gap-4 mb-6 text-sm">
+                <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full font-bold">
+                    {{ book.condition }} Condition
+                </span>
+                <span class="text-muted"><i class="fa-solid fa-eye"></i> 15 people viewing</span>
+            </div>
+
+            <div class="border-t border-slate-200 py-6">
+                <h3 class="font-bold mb-3">Description</h3>
+                <p class="text-muted leading-relaxed mb-6">{{ book.description }}</p>
+
+                <h3 class="font-bold mb-3">Product Details</h3>
+                <ul class="text-sm text-muted grid grid-cols-2 gap-2">
+                    <li><strong>Category:</strong> {{ book.category.name }}</li>
+                    <li><strong>Seller:</strong> {{ book.seller.username }}</li>
+                    <li><strong>Uploaded:</strong> {{ book.created_at|date:"M d, Y" }}</li>
+                    <li><strong>Language:</strong> English</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Col 3: Buy Box -->
+        <div>
+            <div class="card p-6 sticky top-24" style="border: 1px solid var(--slate-200);">
+                <div class="text-3xl font-bold text-slate-900 mb-2">₹{{ book.price }}</div>
+                <div class="text-sm text-green-600 font-bold mb-6">
+                    <i class="fa-solid fa-check"></i> In Stock
+                </div>
+
+                <form action="{% url 'add_to_cart' book.pk %}" method="post" class="flex flex-col gap-3">
+                    {% csrf_token %}
+                    <button class="btn btn-primary w-100">Add to Cart</button>
+                    <a href="{% url 'add_to_wishlist' book.pk %}" class="btn btn-secondary w-100">
+                        <i class="fa-regular fa-heart"></i> Add to Wishlist
+                    </a>
+                </form>
+
+                <div class="mt-6 pt-6 border-t border-slate-100 text-xs text-muted">
+                    <div class="flex justify-between mb-2">
+                        <span>Ships from</span>
+                        <span class="font-bold text-slate-900">Pustakam Warehouse</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Sold by</span>
+                        <span class="font-bold text-slate-900">{{ book.seller.username }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
+{% endblock %}
+
+{% block extra_css %}
+<!-- Mobile Layout Adjustment -->
+<style>
+    @media(max-width: 1024px) {
+        .grid {
+            grid-template-columns: 1fr !important;
+        }
+
+        .sticky {
+            position: static !important;
+        }
+    }
+</style>
 {% endblock %}

@@ -1,15 +1,10 @@
+// Cart interactions
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('Cart page loaded');
-
-    // Add remove item animation
-    const removeButtons = document.querySelectorAll('.btn-remove');
-    removeButtons.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const item = btn.closest('.cart-item');
-            if (item) {
-                item.style.opacity = '0.5';
-                item.style.pointerEvents = 'none';
-            }
+    // Future: AJAX add to cart without reload
+    const addToCartForms = document.querySelectorAll('form[action*="add_to_cart"]');
+    addToCartForms.forEach(form => {
+        form.addEventListener('submit', (e) => {
+            // Optional: Add flying animation to cart icon
         });
     });
 });

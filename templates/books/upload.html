@@ -1,112 +1,15 @@
 {% extends 'books/base.html' %}
-{% load static %}
-
-{% block title %}Sell a Book | Pustakam{% endblock %}
-
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'books/css/upload.css' %}">
-{% endblock %}
-
 {% block content %}
-<div class="container section-padding">
-    <div class="sell-hero text-center mb-5 animate-fade-up">
-        <h1 class="page-title display-4">Turn Pages into <span class="text-gradient">Profit</span></h1>
-        <p class="text-light" style="font-size: 1.25rem;">Give your books a second life. List them in seconds.</p>
-    </div>
-
-    <div class="glass-container animate-fade-up">
-
-        <!-- Left Side: Visual & Tips -->
-        <div class="sell-visual">
-            <!-- Decorative Circles -->
-            <div class="circle-decor circle-1"></div>
-            <div class="circle-decor circle-2"></div>
-
-            <div class="content-wrapper">
-                <h2 class="mb-4 display-5 fw-bold">Seller's Guide</h2>
-
-                <div class="tip-card">
-                    <i class="fas fa-camera text-warning mb-2 fa-lg"></i>
-                    <h4 class="tip-title">Snap It</h4>
-                    <p class="tip-text">Take clear, bright photos. The cover is your first impression.</p>
-                </div>
-
-                <div class="tip-card">
-                    <i class="fas fa-tag text-warning mb-2 fa-lg"></i>
-                    <h4 class="tip-title">Price It</h4>
-                    <p class="tip-text">Check similar books. Fair prices sell faster.</p>
-                </div>
-
-                <div class="tip-card">
-                    <i class="fas fa-box-open text-warning mb-2 fa-lg"></i>
-                    <h4 class="tip-title">Ship It</h4>
-                    <p class="tip-text">Pack securely. Happy readers leave 5 stars.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Right Side: Form -->
-        <div class="sell-form">
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-
-                {% if form.non_field_errors %}
-                <div class="alert alert-error mb-4 fade-in">{{ form.non_field_errors }}</div>
-                {% endif %}
-
-                <div class="form-section mb-4">
-                    <h3 class="form-section-title">Book Details</h3>
-                    <div class="grid-2">
-                        <div class="form-floating mb-3">
-                            <label class="form-label">Title</label>
-                            {{ form.title }}
-                        </div>
-                        <div class="form-floating mb-3">
-                            <label class="form-label">Author</label>
-                            {{ form.author }}
-                        </div>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <label class="form-label">Description</label>
-                        {{ form.description }}
-                    </div>
-                </div>
-
-                <div class="form-section mb-4">
-                    <h3 class="form-section-title">Listing Info</h3>
-                    <div class="grid-2">
-                        <div class="form-floating mb-3">
-                            <label class="form-label">Price (₹)</label>
-                            {{ form.price }}
-                        </div>
-                        <div class="form-floating mb-3">
-                            <label class="form-label">Category</label>
-                            {{ form.category }}
-                        </div>
-                    </div>
-                    <div class="grid-2">
-                        <div class="form-floating mb-3">
-                            <label class="form-label">Condition</label>
-                            {{ form.condition }}
-                        </div>
-                        <div class="form-floating mb-3">
-                            <label class="form-label">Cover Image</label>
-                            {{ form.image }}
-                        </div>
-                    </div>
-                </div>
-
-                <button type="submit" class="btn btn-primary btn-upload w-100 animate-fade-up">
-                    <i class="fas fa-paper-plane"></i> Publish Listing
-                </button>
-            </form>
-        </div>
+<div class="container py-8 flex justify-center">
+    <div class="card p-8" style="width: 100%; max-width: 700px;">
+        <h1 class="text-center text-2xl font-bold mb-6">Sell Your Book</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <small class="d-block mb-3 text-light">Hold Ctrl (Windows) or Cmd (Mac) to select multiple images for
+                "Additional Images".</small>
+            <button class="btn btn-primary w-100 mt-4">List Book for Sale</button>
+        </form>
     </div>
 </div>
-{% endblock %}
-
-{% endblock %}
-
-{% block extra_js %}
-<script src="{% static 'books/js/upload.js' %}"></script>
 {% endblock %}

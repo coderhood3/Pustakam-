@@ -1,94 +1,50 @@
 {% extends 'books/base.html' %}
 {% load static %}
-
-{% block title %}About Us | Pustakam{% endblock %}
-
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'books/css/about.css' %}">
-{% endblock %}
-
 {% block content %}
-<div class="container section-padding">
-    <div class="about-hero text-center mb-5 animate-fade-up">
-        <h1 class="display-3 mb-3">Reimagining <span class="text-gradient">Reading</span></h1>
-        <p class="text-light" style="font-size: 1.3rem; max-width: 800px; margin: 0 auto; line-height: 1.8;">
-            We believe books shouldn't gather dust. Pustakam connects stories with new readers, making knowledge
-            sustainable and accessible to all.
-        </p>
-    </div>
+<!-- Hero -->
+<div class="text-center py-8">
+    <h1 class="text-3xl font-bold mb-4">Our Mission</h1>
+    <p class="text-xl text-muted max-w-2xl mx-auto">
+        To democratize knowledge by extending the life of every book.
+    </p>
+</div>
 
-    <div class="about-grid mb-5">
-        <div class="about-card animate-fade-up">
-            <div class="icon-box bg-soft-success">
-                <i class="fas fa-leaf"></i>
+<!-- Story Section -->
+<div class="container py-8">
+    <div class="grid grid-cols-2" style="align-items: center; gap: 4rem;">
+        <div class="card p-8">
+            <h2 class="text-2xl font-bold mb-4 text-accent">Why Pustakam?</h2>
+            <p class="mb-4 text-muted leading-relaxed">
+                Millions of books end up in landfills every year while students struggle to afford education.
+                Pustakam bridges this gap. We are more than a marketplace; we are a movement for
+                <span class="text-primary font-bold">sustainable education</span>.
+            </p>
+            <p class="text-muted leading-relaxed">
+                By circulating used books, we reduce paper waste, save trees, and make learning accessible to everyone.
+            </p>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+            <div class="card p-6 text-center">
+                <i class="fa-solid fa-tree fa-3x text-accent mb-4"></i>
+                <h3 class="font-bold">Eco-Friendly</h3>
+                <p class="text-sm text-muted">Saving trees, one book at a time.</p>
             </div>
-            <h3>Sustainability</h3>
-            <p class="text-muted">Every reused book saves paper, water, and energy. We're building a greener planet, one
-                page at a time.</p>
-        </div>
-        <div class="about-card animate-fade-up">
-            <div class="icon-box bg-soft-primary">
-                <i class="fas fa-graduation-cap"></i>
+            <div class="card p-6 text-center">
+                <i class="fa-solid fa-hand-holding-heart fa-3x text-primary mb-4"></i>
+                <h3 class="font-bold">Affordable</h3>
+                <p class="text-sm text-muted">Education for everyone.</p>
             </div>
-            <h3>Affordability</h3>
-            <p class="text-muted">We believe knowledge shouldn't drain your wallet. Access premium books and notes at a
-                fraction of the cost.</p>
-        </div>
-        <div class="about-card animate-fade-up">
-            <div class="icon-box bg-soft-warning">
-                <i class="fas fa-users"></i>
+            <div class="card p-6 text-center">
+                <i class="fa-solid fa-users fa-3x text-accent mb-4"></i>
+                <h3 class="font-bold">Community</h3>
+                <p class="text-sm text-muted">A network of 5000+ readers.</p>
             </div>
-            <h3>Community</h3>
-            <p class="text-muted">Join a vibrant community of readers, students, and educators sharing wisdom and
-                resources.</p>
-        </div>
-    </div>
-
-    <!-- Story Section -->
-    <div class="story-section animate-fade-up">
-        <!-- Abstract Bg -->
-        <div class="story-decor"></div>
-
-        <div class="d-flex align-items-center flex-wrap gap-5 position-relative z-10">
-            <div class="flex-grow-1" style="min-width: 300px;">
-                <span class="badge bg-soft-warning text-dark mb-3">Our Mission</span>
-                <h2 class="mb-4 text-white">Bridging the Gap</h2>
-                <p class="text-light-para mb-4">
-                    It started with a simple observation: shelves full of unread books in one home, and students
-                    searching for affordable resources in another.
-                </p>
-                <p class="text-light-para">
-                    Pustakam connects these dots. Whether you're a college student looking for semester notes or a
-                    fiction lover hunting for a classic, we've got you covered.
-                </p>
-                <a href="{% url 'upload_book' %}" class="btn btn-primary mt-4">Join the Movement</a>
+            <div class="card p-6 text-center">
+                <i class="fa-solid fa-shield-halved fa-3x text-primary mb-4"></i>
+                <h3 class="font-bold">Trusted</h3>
+                <p class="text-sm text-muted">Verified sellers & quality reviews.</p>
             </div>
-            <div class="flex-grow-1 text-center">
-                <i class="fas fa-book-reader story-icon"></i>
-            </div>
-        </div>
-    </div>
-
-    <!-- Stats Row -->
-    <div class="stats-row animate-fade-up">
-        <div class="stat-item">
-            <div class="stat-number text-primary">5K+</div>
-            <p class="text-muted m-0">Books Reused</p>
-        </div>
-        <div class="stat-item">
-            <div class="stat-number text-accent">2K+</div>
-            <p class="text-muted m-0">Happy Readers</p>
-        </div>
-        <div class="stat-item">
-            <div class="stat-number text-success">10K+</div>
-            <p class="text-muted m-0">Trees Saved</p>
         </div>
     </div>
 </div>
-{% endblock %}
-
-{% endblock %}
-
-{% block extra_js %}
-<script src="{% static 'books/js/about.js' %}"></script>
 {% endblock %}

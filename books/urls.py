@@ -2,11 +2,12 @@ from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
 
+# Trigger Server Reload
 urlpatterns = [
     path('', views.home, name='home'),
     path('register/', views.register, name='register'),
     path('login/', auth_views.LoginView.as_view(template_name='books/login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
+    path('user-logout/', views.logout_view, name='logout'),
     path('about/', views.about, name='about'),
     path('contact/', views.contact, name='contact'),
     
@@ -18,6 +19,7 @@ urlpatterns = [
     path('cart/remove/<int:item_id>/', views.remove_from_cart, name='remove_from_cart'),
     
     path('checkout/', views.checkout, name='checkout'),
+    path('orders/', views.order_tracking, name='order_tracking'),
     
     path('upload/', views.upload_book, name='upload_book'),
     path('my-books/', views.my_books, name='my_books'),

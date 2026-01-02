@@ -1,148 +1,65 @@
 {% extends 'books/base.html' %}
-{% load static %}
-
-{% block title %}Contact Us | Pustakam{% endblock %}
-
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'books/css/contact.css' %}">
-{% endblock %}
-
 {% block content %}
-<div class="container section-padding">
-    <div class="text-center mb-5 animate-fade-up">
-        <h1 class="display-4">Get in <span class="text-gradient">Touch</span></h1>
-        <p class="text-light">We're here to help you finding your next favorite book.</p>
+<div class="container py-8">
+    <div class="text-center mb-12">
+        <h1 class="text-3xl font-bold mb-2">Get in Touch</h1>
+        <p class="text-muted">We'd love to hear from you. Here's how you can reach us.</p>
     </div>
 
-    <div class="contact-wrapper d-flex shadow-lg animate-fade-up"
-        style="border-radius: 20px; overflow: hidden; background: var(--white); min-height: 600px;">
-        <!-- Left Visual -->
-        <div class="contact-visual p-5 text-white position-relative"
-            style="flex: 1; background: var(--primary-color); overflow: hidden;">
-            <div class="decor-line"
-                style="position: absolute; top:0; left:0; width: 100%; height: 5px; background: linear-gradient(90deg, var(--accent-color), transparent);">
+    <div class="grid grid-cols-3 gap-4 mb-12">
+        <div class="card p-6 text-center">
+            <div class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4 text-accent">
+                <i class="fa-solid fa-envelope"></i>
             </div>
-
-            <h2 class="mb-5">Contact Info</h2>
-
-            <div class="info-group mb-5">
-                <div class="d-flex align-items-center gap-3 mb-4 card-hover p-3 rounded"
-                    style="background: rgba(255,255,255,0.05);">
-                    <div class="icon-circle bg-accent text-white"
-                        style="width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--accent-color);">
-                        <i class="fas fa-envelope"></i>
-                    </div>
-                    <div>
-                        <span class="d-block text-white-50 small">Email Us</span>
-                        <span class="fw-bold">support@pustakam.com</span>
-                    </div>
-                </div>
-
-                <div class="d-flex align-items-center gap-3 mb-4 card-hover p-3 rounded"
-                    style="background: rgba(255,255,255,0.05);">
-                    <div class="icon-circle bg-accent text-white"
-                        style="width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--accent-color);">
-                        <i class="fas fa-phone"></i>
-                    </div>
-                    <div>
-                        <span class="d-block text-white-50 small">Call Us</span>
-                        <span class="fw-bold">+91 98765 43210</span>
-                    </div>
-                </div>
-
-                <div class="d-flex align-items-center gap-3 mb-4 card-hover p-3 rounded"
-                    style="background: rgba(255,255,255,0.05);">
-                    <div class="icon-circle bg-accent text-white"
-                        style="width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--accent-color);">
-                        <i class="fas fa-map-marker-alt"></i>
-                    </div>
-                    <div>
-                        <span class="d-block text-white-50 small">Visit Us</span>
-                        <span class="fw-bold">Knowledge Park III, Noida</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="socials mt-auto">
-                <span class="d-block mb-3 text-white-50">Follow Us</span>
-                <div class="d-flex gap-3">
-                    <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-
-            <!-- Abstract Shapes -->
-            <div
-                style="position: absolute; bottom: -50px; right: -50px; width: 200px; height: 200px; border: 20px solid rgba(255,255,255,0.03); border-radius: 50%;">
-            </div>
+            <h3 class="font-bold mb-2">Email Us</h3>
+            <p class="text-muted text-sm">support@pustakam.com</p>
+            <p class="text-muted text-sm">partners@pustakam.com</p>
         </div>
+        <div class="card p-6 text-center">
+            <div class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4 text-accent">
+                <i class="fa-solid fa-phone"></i>
+            </div>
+            <h3 class="font-bold mb-2">Call Us</h3>
+            <p class="text-muted text-sm">+91 98765 43210</p>
+            <p class="text-muted text-sm">Mon-Fri, 9am - 6pm</p>
+        </div>
+        <div class="card p-6 text-center">
+            <div class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4 text-accent">
+                <i class="fa-solid fa-location-dot"></i>
+            </div>
+            <h3 class="font-bold mb-2">Visit Us</h3>
+            <p class="text-muted text-sm">123, Tech Park, Sector 5</p>
+            <p class="text-muted text-sm">Bangalore, India</p>
+        </div>
+    </div>
 
-        <!-- Right Form -->
-        <div class="contact-form p-5 bg-white" style="flex: 1.5;">
+    <div class="flex justify-center">
+        <div class="card p-8 w-full max-w-2xl">
+            <h2 class="text-xl font-bold mb-6">Send a Message</h2>
             <form method="post">
                 {% csrf_token %}
-                <h3 class="mb-4 text-primary">Send a Message</h3>
-
-                <div class="form-floating mb-3">
-                    <input type="text" name="name" class="form-control form-input" required placeholder="Name">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="form-control-group">
+                        <label class="text-sm text-muted mb-1 block">Full Name</label>
+                        <input type="text" name="name" class="form-control" placeholder="John Doe">
+                    </div>
+                    <div class="form-control-group">
+                        <label class="text-sm text-muted mb-1 block">Email Address</label>
+                        <input type="email" name="email" class="form-control" placeholder="john@example.com">
+                    </div>
                 </div>
-
-                <div class="form-floating mb-3">
-                    <input type="email" name="email" class="form-control form-input" required placeholder="Email">
+                <div class="form-control-group mt-4">
+                    <label class="text-sm text-muted mb-1 block">Subject</label>
+                    <input type="text" name="subject" class="form-control" placeholder="How can we help?">
                 </div>
-
-                <div class="form-floating mb-3">
-                    <input type="text" name="subject" class="form-control form-input" required placeholder="Subject">
+                <div class="form-control-group mt-4">
+                    <label class="text-sm text-muted mb-1 block">Message</label>
+                    <textarea name="message" rows="4" class="form-control"
+                        placeholder="Type your message here..."></textarea>
                 </div>
-
-                <div class="form-floating mb-4">
-                    <textarea name="message" rows="5" class="form-control form-input" required
-                        placeholder="Your Message..." style="height: 150px;"></textarea>
-                </div>
-
-                <button type="submit" class="btn btn-primary btn-lg w-100">
-                    Send Message <i class="fas fa-arrow-right ml-2"></i>
-                </button>
+                <button class="btn btn-primary w-100 mt-6">Send Message</button>
             </form>
         </div>
     </div>
 </div>
-
-<style>
-    @media(max-width: 900px) {
-        .contact-wrapper {
-            flex-direction: column;
-        }
-    }
-
-    .social-btn {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.1);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        transition: 0.3s;
-    }
-
-    .social-btn:hover {
-        background: var(--accent-color);
-        transform: translateY(-3px);
-    }
-
-    .text-white-50 {
-        color: rgba(255, 255, 255, 0.5);
-    }
-
-    .gap-3 {
-        gap: 1rem;
-    }
-</style>
-{% endblock %}
-
-{% block extra_js %}
-<script src="{% static 'books/js/contact.js' %}"></script>
 {% endblock %}

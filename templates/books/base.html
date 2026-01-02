@@ -5,131 +5,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pustakam | {% block title %}Reused Book Marketplace{% endblock %}</title>
+    <title>Pustakam | The Online Bookstore</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Styles -->
-    <link rel="stylesheet" href="{% static 'books/css/common.css' %}">
-    {% block extra_css %}{% endblock %}
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Oswald:wght@500&display=swap"
+        rel="stylesheet">
 
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'books/css/common.css' %}?v=3">
+    {% block extra_css %}{% endblock %}
 </head>
 
 <body>
 
-    <nav class="navbar">
-        <div class="container nav-container">
+    <!-- 1. Top Strip (Offers) -->
+    <div class="top-strip">
+        FREE SHIPPING ON ORDERS OVER ₹500 | USE CODE: <strong>PUSTAKNEW</strong> FOR 10% OFF
+    </div>
+
+    <!-- 2. Main Header (Logo, Search, Actions) -->
+    <header class="main-header">
+        <div class="container header-row">
+            <!-- Logo -->
             <a href="{% url 'home' %}" class="logo">
-                <i class="fas fa-book-open"></i> Pustakam
+                PUSTAK<span>AM</span>
             </a>
 
-            <button class="mobile-menu-toggle" aria-label="Toggle navigation">
-                <i class="fas fa-bars"></i>
-            </button>
-
+            <!-- Search Bar -->
             <div class="search-bar">
-                <form action="{% url 'home' %}" method="GET">
-                    <input type="text" placeholder="Search for books, authors..." name="q">
-                    <button type="submit"><i class="fas fa-search"></i></button>
-                </form>
+                <input type="text" class="search-input" placeholder="Search by Title, Author, or ISBN...">
+                <button class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
             </div>
 
-            <ul class="nav-links">
-                <li><a href="{% url 'home' %}">Home</a></li>
+            <!-- User Actions -->
+            <div class="user-actions d-flex align-center">
                 {% if user.is_authenticated %}
-                <li><a href="{% url 'wishlist' %}"><i class="fas fa-heart"></i></a></li>
-                <li><a href="{% url 'cart' %}"><i class="fas fa-shopping-cart"></i></a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropbtn">Hi, {{ user.first_name }} <i class="fas fa-caret-down"></i></a>
-                    <div class="dropdown-content">
-                        <a href="{% url 'my_books' %}">My Uploads</a>
-                        <a href="{% url 'upload_book' %}">Sell Book</a>
-                        <a href="#">Orders</a> <!-- TODO -->
-                        <form action="{% url 'logout' %}" method="post" id="logout-form">
-                            {% csrf_token %}
-                            <button type="submit" class="logout-btn">Logout</button>
-                        </form>
+                <a href="{% url 'order_tracking' %}" title="Track Orders"><i class="fa-solid fa-box-open"></i></a>
+                <a href="{% url 'wishlist' %}" title="Wishlist"><i class="fa-regular fa-heart"></i></a>
+                <a href="{% url 'cart' %}" title="Cart"><i class="fa-solid fa-cart-shopping"></i></a>
+                <a href="/user-logout/" style="font-size: 0.9rem; font-weight: bold; margin-left:1.5rem;">LOGOUT</a>
+                {% else %}
+                <a href="{% url 'login' %}" style="font-size: 0.9rem; font-weight: bold;">LOGIN / SIGNUP</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <!-- 3. Navigation Menu (Categories) -->
+    <nav class="nav-menu">
+        <div class="container">
+            <ul class="nav-list">
+                <li class="nav-item-container">
+                    <a href="{% url 'home' %}" class="nav-item">Home</a>
+                </li>
+
+                <li class="nav-item-container">
+                    <a href="#" class="nav-item">New Arrivals <i class="fa-solid fa-chevron-down"
+                            style="font-size: 0.7em; margin-left: 4px;"></i></a>
+                    <div class="dropdown-menu">
+                        <a href="#" class="dropdown-item">Just Arrived</a>
+                        <a href="#" class="dropdown-item">This Week's Best</a>
+                        <a href="#" class="dropdown-item">Pre-Order Now</a>
+                        <a href="#" class="dropdown-item">International Editions</a>
+                        <a href="#" class="dropdown-item">Award Winners 2024</a>
                     </div>
                 </li>
-                {% else %}
-                <li><a href="{% url 'login' %}">Login</a></li>
-                <li><a href="{% url 'register' %}" class="btn btn-primary">Sign Up</a></li>
-                {% endif %}
+
+                <li class="nav-item-container">
+                    <a href="#" class="nav-item">Exams <i class="fa-solid fa-chevron-down"
+                            style="font-size: 0.7em; margin-left: 4px;"></i></a>
+                    <div class="dropdown-menu">
+                        <a href="#" class="dropdown-item">UPSC / Civil Services</a>
+                        <a href="#" class="dropdown-item">JEE / NEET (Engineering/Medical)</a>
+                        <a href="#" class="dropdown-item">Banking & SSC</a>
+                        <a href="#" class="dropdown-item">School Books (NCERT)</a>
+                        <a href="#" class="dropdown-item">GMAT / GRE / TOEFL</a>
+                        <a href="#" class="dropdown-item">Law & Judiciary</a>
+                    </div>
+                </li>
+
+                <li class="nav-item-container">
+                    <a href="#" class="nav-item">Categories <i class="fa-solid fa-chevron-down"
+                            style="font-size: 0.7em; margin-left: 4px;"></i></a>
+                    <div class="dropdown-menu" style="min-width: 250px;">
+                        <a href="#" class="dropdown-item">Fiction & Literature</a>
+                        <a href="#" class="dropdown-item">Non-Fiction & Biographies</a>
+                        <a href="#" class="dropdown-item">Business & Management</a>
+                        <a href="#" class="dropdown-item">Crime, Thriller & Mystery</a>
+                        <a href="#" class="dropdown-item">Children & Young Adult</a>
+                        <a href="#" class="dropdown-item">Self-Help & Spirituality</a>
+                        <a href="#" class="dropdown-item">Academic & Reference</a>
+                        <a href="#" class="dropdown-item">Comics & Mangas</a>
+                    </div>
+                </li>
+
+                <li class="nav-item-container">
+                    <a href="#" class="nav-item">Best Sellers</a>
+                </li>
+
+                <li class="nav-item-container">
+                    <a href="{% url 'upload_book' %}" class="nav-item" style="color:var(--brand-yellow);">Sell Books</a>
+                </li>
             </ul>
         </div>
     </nav>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
-            const navLinks = document.querySelector('.nav-links');
-
-            if (mobileMenuToggle && navLinks) {
-                mobileMenuToggle.addEventListener('click', () => {
-                    navLinks.classList.toggle('active');
-                    const icon = mobileMenuToggle.querySelector('i');
-                    if (navLinks.classList.contains('active')) {
-                        icon.classList.remove('fa-bars');
-                        icon.classList.add('fa-times');
-                    } else {
-                        icon.classList.remove('fa-times');
-                        icon.classList.add('fa-bars');
-                    }
-                });
-            }
-        });
-    </script>
-
-    <main class="main-content">
-        {% if messages %}
-        <div class="messages-container">
-            {% for message in messages %}
-            <div class="alert alert-{{ message.tags }}">
-                {{ message }}
-            </div>
-            {% endfor %}
-        </div>
-        {% endif %}
-
-        {% block content %}{% endblock %}
+    <!-- Content Block -->
+    <main style="min-height: 60vh;">
+        {% block content %}
+        {% endblock %}
     </main>
 
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>Pustakam</h3>
-                    <p>Affordable knowledge for everyone. Buy and sell reused books securely.</p>
-                </div>
-                <div class="footer-section">
-                    <h3>Quick Links</h3>
-                    <ul>
-                        <li><a href="{% url 'home' %}">Home</a></li>
-                        <li><a href="{% url 'about' %}">About Us</a></li>
-                        <li><a href="{% url 'contact' %}">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Follow Us</h3>
-                    <div class="social-icons">
-                        <a href="#"><i class="fab fa-facebook"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                    </div>
+    <!-- Footer -->
+    <footer style="background: #222; color: white; padding: 4rem 0; margin-top: 4rem;">
+        <div class="container grid-4">
+            <div>
+                <h4 class="font-bold mb-2 text-upper" style="color:var(--brand-yellow);">About Us</h4>
+                <p style="font-size: 0.9rem; color: #ccc;">Pustakam is India's largest online store for reused books. We
+                    believe in sustainable reading.</p>
+            </div>
+            <div>
+                <h4 class="font-bold mb-2 text-upper" style="color:var(--brand-yellow);">Help</h4>
+                <ul style="font-size: 0.9rem; color: #ccc; line-height: 2;">
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Shipping Policy</a></li>
+                    <li><a href="#">Returns & Refund</a></li>
+                    <li><a href="{% url 'admin:index' %}" target="_blank" style="color: var(--brand-yellow);">Admin
+                            Panel</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold mb-2 text-upper" style="color:var(--brand-yellow);">Follow Us</h4>
+                <div class="d-flex gap-2">
+                    <a href="#" style="color: white;"><i class="fa-brands fa-facebook fa-lg"></i></a>
+                    <a href="#" style="color: white;"><i class="fa-brands fa-instagram fa-lg"></i></a>
+                    <a href="#" style="color: white;"><i class="fa-brands fa-twitter fa-lg"></i></a>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Pustakam. All rights reserved.</p>
+            <div>
+                <h4 class="font-bold mb-2 text-upper" style="color:var(--brand-yellow);">Secure Payment</h4>
+                <i class="fa-brands fa-cc-visa fa-2x" style="color:#ccc; margin-right: 10px;"></i>
+                <i class="fa-brands fa-cc-mastercard fa-2x" style="color:#ccc;"></i>
             </div>
         </div>
     </footer>
 
-    <!-- Scripts -->
+    <!-- JS -->
     <script src="{% static 'books/js/animations.js' %}"></script>
     {% block extra_js %}{% endblock %}
 </body>
